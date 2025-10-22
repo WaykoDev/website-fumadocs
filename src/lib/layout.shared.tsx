@@ -14,7 +14,7 @@ export function baseOptions(): BaseLayoutProps {
       title: (
         <>
            <svg
-    className="h-6 w-6 shrink-0"
+    className="h-10 w-10 shrink-0"
     viewBox="0 0 2000 2000"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
