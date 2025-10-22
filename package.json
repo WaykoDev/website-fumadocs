@@ -10,13 +10,17 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.6",
+    "@react-three/fiber": "^9.4.0",
     "fumadocs-core": "16.0.1",
     "fumadocs-mdx": "13.0.0",
     "fumadocs-ui": "16.0.1",
+    "glslify": "^7.1.1",
     "lucide-react": "^0.544.0",
     "next": "16.0.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "three": "^0.180.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -25,6 +29,7 @@
     "@types/node": "24.9.1",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
+    "@types/three": "^0.180.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.0",
     "postcss": "^8.5.6",

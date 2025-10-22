@@ -73,6 +73,7 @@ export function baseOptions(): BaseLayoutProps {
         url: '/contact',
         active: 'nested-url',
       },
+
     ],
   };
 }
