@@ -9,6 +9,7 @@ import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
  */
 export function baseOptions(): BaseLayoutProps {
   return {
+    githubUrl: 'https://github.com/WaykoDev',
     nav: {
       title: (
         <>
@@ -20,20 +21,57 @@ export function baseOptions(): BaseLayoutProps {
           >
             <circle cx={12} cy={12} r={12} fill="currentColor" />
           </svg>
-          WAYKO
+          Wayko
         </>
       ),
     },
     // see https://fumadocs.dev/docs/ui/navigation/links
-    links: [
+    links: [      
       {
-        text: 'Writeups',
-        url: '/docs',
-        active: 'nested-url',
+        type: 'menu',
+        text: 'Blog',
+        items: [
+          {
+            text: 'Dream, share and chill',
+            description: 'Learn to use Fumadocs',
+            url: '/dreams',
+          },
+          {
+            text: 'iconv: Set the Charset to RCE',
+            description: 'Learn to use Fumadocs',
+            url: '/iconv-set-the-charset-to-rce',
+          },
+          {
+            text: 'Dream, share and chill',
+            description: 'Learn to use Fumadocs',
+            url: '/dreams',
+          },
+          {
+            text: 'iconv: Set the Charset to RCE',
+            description: 'Learn to use Fumadocs',
+            url: '/iconv-set-the-charset-to-rce',
+          },
+          {
+            text: 'Dream, share and chill',
+            description: 'Learn to use Fumadocs',
+            url: '/dreams',
+          },
+          {
+            text: 'iconv: Set the Charset to RCE',
+            description: 'Learn to use Fumadocs',
+            url: '/iconv-set-the-charset-to-rce',
+          },
+        ],
       },
       {
         text: 'About',
         url: '/about',
+        active: 'nested-url',
+      },
+      {
+        text: 'Contact',
+        url: '/contact',
+        active: 'nested-url',
       },
     ],
   };
