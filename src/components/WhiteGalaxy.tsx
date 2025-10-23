@@ -143,7 +143,7 @@ const CustomGeometryParticles: React.FC<CustomGeometryParticlesProps> = ({ count
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          //fix error TODO args={[particlesPosition, 3]}
+          args={[particlesPosition, 3]}
           count={particlesPosition.length / 3}
           array={particlesPosition}
           itemSize={3}
