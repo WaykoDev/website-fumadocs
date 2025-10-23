@@ -1,10 +1,12 @@
 
 import { Intro } from "@/components/Intro";
 import BackgroundGalaxy from "@/components/BackgroundGalaxy";
+import NoScroll from "@/components/NoScroll";
 
 export default function HomePage() {
   return (
     <main className="relative flex flex-col items-center justify-center h-screen overflow-hidden bg-white text-black transition-colors duration-300 dark:bg-black dark:text-white">
+      <NoScroll />
       {/* Fond Galaxy */}
       <div className="absolute inset-0 z-0">
         <BackgroundGalaxy />
