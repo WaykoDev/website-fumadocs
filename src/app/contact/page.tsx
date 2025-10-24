@@ -77,7 +77,7 @@ const socials = [
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen w-full  text-neutral-900 transition-colors duration-300 dark:bg-black dark:text-neutral-100">
+    <main className="min-h-screen w-full text-neutral-900 transition-colors duration-300 dark:text-neutral-100">
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-12 px-6 py-16 sm:px-8 lg:py-20">
         <header className="space-y-5">
           <p className="inline-flex items-center gap-2 text-xl font-semibold uppercase tracking-[0.35em] text-fuchsia-700/70 dark:text-fuchsia-300/70">
