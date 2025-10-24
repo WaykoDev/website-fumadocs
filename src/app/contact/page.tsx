@@ -22,7 +22,7 @@ function TwitterIcon(props: IconProps) {
 const EmailLink: React.FC<{ className?: string }> = ({ className }) => (
   <Link
     href="mailto:franck@chvl.re"
-    className={`flex items-center justify-between rounded-2xl border border-fuchsia-200 bg-white px-4 py-4 text-sm shadow-sm transition hover:border-fuchsia-400 hover:shadow-md dark:border-fuchsia-500/30 dark:bg-neutral-900/60 dark:text-neutral-50 dark:hover:border-fuchsia-400 ${className ?? ""}`}
+    className={`flex items-center justify-between rounded-2xl border border-fuchsia-200  px-4 py-4 text-sm shadow-sm transition hover:border-fuchsia-400 hover:shadow-md dark:border-fuchsia-500/30 dark:bg-neutral-900/60 dark:text-neutral-50 dark:hover:border-fuchsia-400 ${className ?? ""}`}
   >
     <div className="flex items-center gap-3">
       <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-fuchsia-500/15 text-fuchsia-600 dark:text-fuchsia-200">
@@ -71,7 +71,7 @@ const socials = [
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen w-full bg-white text-neutral-900 transition-colors duration-300 dark:bg-black dark:text-neutral-100">
+    <main className="min-h-screen w-full  text-neutral-900 transition-colors duration-300 dark:bg-black dark:text-neutral-100">
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-12 px-6 py-16 sm:px-8 lg:py-20">
         <header className="space-y-5">
           <p className="inline-flex items-center gap-2 text-xl font-semibold uppercase tracking-[0.35em] text-fuchsia-700/70 dark:text-fuchsia-300/70">
@@ -96,7 +96,7 @@ export default function ContactPage() {
           <h2 className="text-sm font-semibold uppercase tracking-[0.28em] text-neutral-500 dark:text-neutral-400">
             Réseaux
           </h2>
-          <div className="rounded-3xl border border-neutral-200/80 bg-white/70 p-1.5 shadow-sm backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/70">
+          <div className="rounded-3xl border border-neutral-200/80 /70 p-1.5 shadow-sm backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/70">
             <ul className="space-y-1">
               {socials.map(({ label, href, description, icon: Icon, accent }) => (
                 <li key={label}>

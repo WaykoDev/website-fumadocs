@@ -14,11 +14,11 @@ export function baseOptions(): BaseLayoutProps {
       title: (
         <>
            <svg
-    className="h-10 w-10 shrink-0"
-    viewBox="0 0 2000 2000"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+              className="h-10 w-10 shrink-0"
+              viewBox="0 0 2000 2000"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >   
 
             <mask id="mask0_2_2" style={{ maskType: 'alpha' }} maskUnits="userSpaceOnUse" x="236" y="175" width="1528" height="1529">
               <circle cx="999.85" cy="939.673" r="763.774" fill="#000026" />
