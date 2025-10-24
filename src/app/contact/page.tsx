@@ -71,6 +71,7 @@ const socials = [
     href: "https://x.com/waykodev",
     description: "Veille cybersécurité, threads & quick notes",
     icon: XIcon,
+    accent: "text-blue-400",
   },
 ] as const;
 
