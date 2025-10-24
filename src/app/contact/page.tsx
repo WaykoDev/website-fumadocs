@@ -11,10 +11,16 @@ function LinkedInIcon(props: IconProps) {
   );
 }
 
-function TwitterIcon(props: IconProps) {
+function XIcon(props: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
-      <path d="M23.95 4.57a10 10 0 0 1-2.82.77 4.93 4.93 0 0 0 2.17-2.72 9.86 9.86 0 0 1-3.13 1.19 4.92 4.92 0 0 0-8.49 4.48A13.95 13.95 0 0 1 1.67 3.15a4.9 4.9 0 0 0-.67 2.48 4.92 4.92 0 0 0 2.19 4.1 4.86 4.86 0 0 1-2.23-.62v.06a4.93 4.93 0 0 0 3.95 4.83 4.9 4.9 0 0 1-2.22.08 4.93 4.93 0 0 0 4.6 3.42A9.87 9.87 0 0 1 0 19.54 13.94 13.94 0 0 0 7.55 21.7c9.05 0 14-7.5 14-14 0-.21 0-.41-.02-.62a9.98 9.98 0 0 0 2.42-2.51z" />
+    <svg
+      viewBox="0 0 300 271"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      {...props}
+    >
+      <path d="m236 0h46l-101 115 118 156h-92.6l-72.5-94.8-83 94.8h-46l107-123-113-148h94.9l65.5 86.6zm-16.1 244h25.5l-165-218h-27.4z" />
     </svg>
   );
 }
@@ -49,23 +55,22 @@ const EmailLink: React.FC<{ className?: string }> = ({ className }) => (
 export const metadata = {
   title: "Contact | Wayko Infosec",
   description:
-    "Get in touch with Wayko via email or connect on LinkedIn and Twitter.",
+    "Get in touch with Wayko via email or connect on LinkedIn and X.",
 };
 
 const socials = [
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/franck-chevalier-wayko/",
+    href: "https://www.linkedin.com/in/franck-chevalier974/",
     description: "Actualités pro & prise de contact rapide",
     icon: LinkedInIcon,
     accent: "text-fuchsia-500",
   },
   {
-    label: "Twitter",
-    href: "https://twitter.com/wayko_infosec",
+    label: "X",
+    href: "https://x.com/waykodev",
     description: "Veille cybersécurité, threads & quick notes",
-    icon: TwitterIcon,
-    accent: "text-sky-500",
+    icon: XIcon,
   },
 ] as const;
 
