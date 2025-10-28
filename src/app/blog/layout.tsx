@@ -1,5 +1,6 @@
-import { HomeLayoutWrapper } from '@/app/home-layout-wrapper';
+import { HomeLayout } from 'fumadocs-ui/layouts/home';
+import { baseOptions } from '@/lib/layout.shared';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <HomeLayoutWrapper>{children}</HomeLayoutWrapper>;
+  return <HomeLayout {...baseOptions()}>{children}</HomeLayout>;
 }
