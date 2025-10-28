@@ -19,11 +19,6 @@ export const docs = defineDocs({
   },
 });
 
-export const about = defineConfig({
-  type: "doc",
-  dir: "./content/about"
-});
-
 export default defineConfig({
   mdxOptions: {
     // MDX options
