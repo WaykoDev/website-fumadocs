@@ -1,4 +1,4 @@
-import { docs, about } from '@/.source';
+import { docs } from '@/.source';
 import { type InferPageType, loader } from 'fumadocs-core/source';
 import { lucideIconsPlugin } from 'fumadocs-core/source/lucide-icons';
 
