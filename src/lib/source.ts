@@ -9,12 +9,6 @@ export const source = loader({
   plugins: [lucideIconsPlugin()],
 });
 
-export const abouts = loader({
-  baseUrl: '/about',
-  source: docs.toFumadocsSource(),
-  plugins: [lucideIconsPlugin()],
-});
-
 export function getPageImage(page: InferPageType<typeof source>) {
   const segments = [...page.slugs, 'image.png'];
 
