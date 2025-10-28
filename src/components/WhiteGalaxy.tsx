@@ -162,7 +162,7 @@ const CustomGeometryParticles: React.FC<CustomGeometryParticlesProps> = ({ count
 
 const WhiteGalaxy: React.FC = () => {
   return (
-    <div className="fixed -z-10 inset-0 w-screen h-screen pointer-events-none bg-[#f5f5f5]">
+    <div className="fixed -z-10 inset-0 w-screen h-screen pointer-events-none bg-transparent">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(216,196,255,0.45),_rgba(255,255,255,0)_72%)]" />
       <Canvas camera={{ position: [2, 2, 2] }}>
         <ambientLight intensity={0.5} />

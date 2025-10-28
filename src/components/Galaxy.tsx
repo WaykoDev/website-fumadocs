@@ -123,7 +123,7 @@ const CustomGeometryParticles: React.FC<CustomGeometryParticlesProps> = ({ count
 // -------------------
 const Galaxy: React.FC = () => {
   return (
-    <div className="fixed -z-10 inset-0 w-screen h-screen pointer-events-none bg-black">
+    <div className="fixed -z-10 inset-0 w-screen h-screen pointer-events-none bg-transparent">
       <Canvas camera={{ position: [2, 2, 2] }}>
         <ambientLight intensity={0.5} />
         <CustomGeometryParticles count={4000} />
