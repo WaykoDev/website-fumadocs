@@ -177,40 +177,9 @@ export function baseOptions(): BaseLayoutProps {
     // see https://fumadocs.dev/docs/ui/navigation/links
     links: [
       {
-        type: 'menu',
         text: 'Blog',
-        items: [
-          {
-            text: 'Dream, share and chill',
-            description: 'Learn to use Fumadocs',
-            url: '/dreams',
-          },
-          {
-            text: 'iconv: Set the Charset to RCE',
-            description: 'Learn to use Fumadocs',
-            url: '/iconv-set-the-charset-to-rce',
-          },
-          {
-            text: 'Dream, share and chill',
-            description: 'Learn to use Fumadocs',
-            url: '/dreams',
-          },
-          {
-            text: 'iconv: Set the Charset to RCE',
-            description: 'Learn to use Fumadocs',
-            url: '/iconv-set-the-charset-to-rce',
-          },
-          {
-            text: 'Dream, share and chill',
-            description: 'Learn to use Fumadocs',
-            url: '/dreams',
-          },
-          {
-            text: 'iconv: Set the Charset to RCE',
-            description: 'Learn to use Fumadocs',
-            url: '/iconv-set-the-charset-to-rce',
-          },
-        ],
+        url: '/blog',
+        active: 'nested-url',
       },
       {
         text: 'About',
