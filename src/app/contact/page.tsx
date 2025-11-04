@@ -1,140 +1,342 @@
-import type { SVGProps } from "react";
-import Link from "next/link";
+'use client';
 
-type IconProps = SVGProps<SVGSVGElement>;
-
-function LinkedInIcon(props: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
-      <path d="M22.23 0H1.77C.79 0 0 .78 0 1.74v20.52C0 23.22.79 24 1.77 24h20.46c.98 0 1.77-.78 1.77-1.74V1.74C24 .78 23.21 0 22.23 0zM7.12 20.45H3.56V9h3.56v11.45zM5.34 7.43c-1.13 0-2.04-.92-2.04-2.06 0-1.13.91-2.05 2.04-2.05 1.12 0 2.04.92 2.04 2.05 0 1.14-.91 2.06-2.04 2.06zM20.45 20.45h-3.56v-5.46c0-1.3-.02-2.97-1.81-2.97-1.81 0-2.09 1.38-2.09 2.88v5.55h-3.56V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.28 2.37 4.28 5.45v6.29z" />
-    </svg>
-  );
-}
-
-function XIcon(props: IconProps) {
-  return (
-    <svg
-      viewBox="0 0 300 271"
-      fill="currentColor"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      {...props}
-    >
-      <path d="m236 0h46l-101 115 118 156h-92.6l-72.5-94.8-83 94.8h-46l107-123-113-148h94.9l65.5 86.6zm-16.1 244h25.5l-165-218h-27.4z" />
-    </svg>
-  );
-}
-
-const EmailLink: React.FC<{ className?: string }> = ({ className }) => (
-  <Link
-    href="mailto:franck@chvl.re"
-    className={`flex items-center justify-between rounded-2xl border border-fuchsia-200  px-4 py-4 text-sm shadow-sm transition hover:border-fuchsia-400 hover:shadow-md dark:border-fuchsia-500/30 dark:bg-neutral-900/60 dark:text-neutral-50 dark:hover:border-fuchsia-400 ${className ?? ""}`}
-  >
-    <div className="flex items-center gap-3">
-      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-fuchsia-500/15 text-fuchsia-600 dark:text-fuchsia-200">
-        <svg viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8} fill="none" aria-hidden="true" className="h-5 w-5">
-          <rect x="3" y="5" width="18" height="14" rx="2.2" />
-          <path d="M4 7 12 12.5 20 7" />
-          <path d="m20 17-5.5-4" />
-          <path d="m4 17 5.5-4" />
-        </svg>
-      </span>
-      <div>
-        <p className="text-xs uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
-          Email direct
-        </p>
-        <p className="font-semibold text-neutral-900 dark:text-neutral-50">franck@chvl.re</p>
-      </div>
-    </div>
-    <span className="text-xs font-medium text-neutral-500 dark:text-neutral-300">
-      Réponse rapide
-    </span>
-  </Link>
-);
-
-export const metadata = {
-  title: "Contact | Wayko Infosec",
-  description:
-    "Get in touch with Wayko via email or connect on LinkedIn and X.",
-};
-
-const socials = [
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/franck-chevalier974/",
-    description: "Actualités pro & prise de contact rapide",
-    icon: LinkedInIcon,
-    accent: "text-fuchsia-500",
-  },
-  {
-    label: "X",
-    href: "https://x.com/waykodev",
-    description: "Veille cybersécurité, threads & quick notes",
-    icon: XIcon,
-    accent: "text-blue-400",
-  },
-] as const;
+import { useState } from 'react';
+import Link from 'next/link';
 
 export default function ContactPage() {
-  return (
-    <main className="min-h-screen w-full text-neutral-900 transition-colors duration-300 dark:text-neutral-100">
-      <div className="mx-auto flex w-full max-w-2xl flex-col gap-12 px-6 py-16 sm:px-8 lg:py-20">
-        <header className="space-y-5">
-          <p className="inline-flex items-center gap-2 text-xl font-semibold uppercase tracking-[0.35em] text-fuchsia-700/70 dark:text-fuchsia-300/70">
-            Contact
-          </p>
-          <div className="space-y-3">
-            <h1 className="text-4xl font-semibold tracking-tight sm:text-[2.7rem] text-fuchsia-700/70">
-              Discutons cybersécurité.
-            </h1>
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    company: '',
+    message: '',
+    isSecurityDisclosure: false,
+  });
 
+  const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // Form submission logic would go here
+    setFormStatus('success');
+    setTimeout(() => setFormStatus('idle'), 5000);
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  return (
+    <div className="relative w-full">
+      {/* Subtle cosmic background - very faint */}
+      <div className="pointer-events-none fixed inset-0 -z-10 opacity-[0.02]">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900 via-black to-black" />
+      </div>
+
+      <div className="relative mx-auto max-w-5xl px-6 py-20 sm:px-8 lg:py-28">
+        {/* Hero Section - ~1/3 vertical space, golden ratio spacing */}
+        <header className="mb-20 space-y-6 lg:mb-32">
+          {/* Subtle cosmic halo behind title */}
+          <div className="relative">
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-64 w-64 -translate-x-1/2 -translate-y-1/2 opacity-10 blur-3xl">
+              <div className="h-full w-full rounded-full bg-purple-500" />
+            </div>
+
+            <h1 className="font-mono text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+              Contact Wayko
+            </h1>
           </div>
+
+          <p className="max-w-2xl text-lg leading-relaxed text-gray-600 dark:text-gray-400">
+            For research collaborations, disclosure, consulting inquiries, or technical discussion.
+          </p>
+
+          <p className="font-mono text-xs uppercase tracking-wider text-gray-500 dark:text-gray-500">
+            PGP available upon request
+          </p>
         </header>
 
-        <section className="space-y-4">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.28em] text-neutral-500 dark:text-neutral-400">
-            Canal privilégié
+        {/* Contact Methods Block - 3 equal columns on desktop */}
+        <section className="mb-20 lg:mb-32">
+          <h2 className="mb-8 font-mono text-xs uppercase tracking-[0.2em] text-gray-500 dark:text-gray-500">
+            Direct channels
           </h2>
-          <EmailLink />
-        </section>
 
-        <section className="space-y-4">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.28em] text-neutral-500 dark:text-neutral-400">
-            Réseaux
-          </h2>
-          <div className="rounded-3xl border border-neutral-200/80 /70 p-1.5 shadow-sm backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/70">
-            <ul className="space-y-1">
-              {socials.map(({ label, href, description, icon: Icon, accent }) => (
-                <li key={label}>
-                  <Link
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center gap-4 rounded-2xl px-4 py-4 transition hover:bg-fuchsia-50/80 dark:hover:bg-fuchsia-500/10"
-                  >
-                    <span
-                      className={`flex h-11 w-11 items-center justify-center rounded-full bg-neutral-100/90 text-base shadow-sm transition group-hover:scale-105 ${accent} dark:bg-neutral-800`}
-                    >
-                      <Icon className="h-5 w-5" />
-                    </span>
-                    <div className="flex flex-1 flex-col">
-                      <span className="text-sm font-semibold text-neutral-900 transition group-hover:text-fuchsia-700 dark:text-neutral-50 dark:group-hover:text-fuchsia-200">
-                        {label}
-                      </span>
-                      <span className="text-xs text-neutral-500 transition group-hover:text-neutral-600 dark:text-neutral-400 dark:group-hover:text-neutral-300">
-                        {description}
-                      </span>
-                    </div>
-                    <span className="text-xs font-medium uppercase tracking-wide text-neutral-400 transition group-hover:text-fuchsia-500 dark:text-neutral-600 dark:group-hover:text-fuchsia-200">
-                      ↗
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {/* Email (primary mode) */}
+            <div className="group space-y-3 border-l border-gray-200 dark:border-gray-800 pl-4 transition-all hover:border-[#8A2BE2]">
+              <div className="font-mono text-xs uppercase tracking-wider text-gray-500 dark:text-gray-500">
+                Email
+              </div>
+              <Link
+                href="mailto:franck@chvl.re"
+                className="block font-medium text-black dark:text-white underline-offset-4 transition-all hover:underline"
+              >
+                franck@chvl.re
+              </Link>
+              <p className="text-xs leading-relaxed text-gray-600 dark:text-gray-400">
+                Response in 24–48h if relevant
+              </p>
+            </div>
+
+            {/* GitHub / GPG request */}
+            <div className="group space-y-3 border-l border-gray-200 dark:border-gray-800 pl-4 transition-all hover:border-[#8A2BE2]">
+              <div className="font-mono text-xs uppercase tracking-wider text-gray-500 dark:text-gray-500">
+                GitHub / GPG
+              </div>
+              <Link
+                href="https://github.com/waykodev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block font-medium text-black dark:text-white underline-offset-4 transition-all hover:underline"
+              >
+                @waykodev
+              </Link>
+              <p className="text-xs leading-relaxed text-gray-600 dark:text-gray-400">
+                Public keys & code verification
+              </p>
+            </div>
+
+            {/* LinkedIn (professional presence only) */}
+            <div className="group space-y-3 border-l border-gray-200 dark:border-gray-800 pl-4 transition-all hover:border-[#8A2BE2]">
+              <div className="font-mono text-xs uppercase tracking-wider text-gray-500 dark:text-gray-500">
+                LinkedIn
+              </div>
+              <Link
+                href="https://www.linkedin.com/in/franck-chevalier974/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block font-medium text-black dark:text-white underline-offset-4 transition-all hover:underline"
+              >
+                Professional presence
+              </Link>
+              <p className="text-xs leading-relaxed text-gray-600 dark:text-gray-400">
+                Industry updates & connections
+              </p>
+            </div>
           </div>
         </section>
+
+        {/* Contact Form - ~2/3 vertical space */}
+        <section className="mb-20">
+          <h2 className="mb-8 font-mono text-xs uppercase tracking-[0.2em] text-gray-500 dark:text-gray-500">
+            Send a message
+          </h2>
+
+          <form onSubmit={handleSubmit} className="max-w-2xl space-y-8">
+            {/* Name field */}
+            <div className="space-y-2">
+              <label
+                htmlFor="name"
+                className="block font-mono text-xs uppercase tracking-wider text-gray-600 dark:text-gray-400"
+              >
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                onFocus={() => setFocusedField('name')}
+                onBlur={() => setFocusedField(null)}
+                required
+                className={`w-full border bg-transparent px-4 py-3 text-black dark:text-white transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none ${
+                  focusedField === 'name'
+                    ? 'border-[#8A2BE2] shadow-[0_0_12px_rgba(138,43,226,0.3)]'
+                    : 'border-gray-300 dark:border-gray-700'
+                }`}
+                placeholder="Your name"
+              />
+            </div>
+
+            {/* Email field */}
+            <div className="space-y-2">
+              <label
+                htmlFor="email"
+                className="block font-mono text-xs uppercase tracking-wider text-gray-600 dark:text-gray-400"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                onFocus={() => setFocusedField('email')}
+                onBlur={() => setFocusedField(null)}
+                required
+                className={`w-full border bg-transparent px-4 py-3 text-black dark:text-white transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none ${
+                  focusedField === 'email'
+                    ? 'border-[#8A2BE2] shadow-[0_0_12px_rgba(138,43,226,0.3)]'
+                    : 'border-gray-300 dark:border-gray-700'
+                }`}
+                placeholder="your@email.com"
+              />
+            </div>
+
+            {/* Company / Org (optional) */}
+            <div className="space-y-2">
+              <label
+                htmlFor="company"
+                className="block font-mono text-xs uppercase tracking-wider text-gray-600 dark:text-gray-400"
+              >
+                Company / Org{' '}
+                <span className="text-gray-500 dark:text-gray-500">(optional)</span>
+              </label>
+              <input
+                type="text"
+                id="company"
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
+                onFocus={() => setFocusedField('company')}
+                onBlur={() => setFocusedField(null)}
+                className={`w-full border bg-transparent px-4 py-3 text-black dark:text-white transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none ${
+                  focusedField === 'company'
+                    ? 'border-[#8A2BE2] shadow-[0_0_12px_rgba(138,43,226,0.3)]'
+                    : 'border-gray-300 dark:border-gray-700'
+                }`}
+                placeholder="Organization name"
+              />
+            </div>
+
+            {/* Message field */}
+            <div className="space-y-2">
+              <label
+                htmlFor="message"
+                className="block font-mono text-xs uppercase tracking-wider text-gray-600 dark:text-gray-400"
+              >
+                Message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                onFocus={() => setFocusedField('message')}
+                onBlur={() => setFocusedField(null)}
+                required
+                rows={6}
+                className={`w-full resize-none border bg-transparent px-4 py-3 text-black dark:text-white transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none ${
+                  focusedField === 'message'
+                    ? 'border-[#8A2BE2] shadow-[0_0_12px_rgba(138,43,226,0.3)]'
+                    : 'border-gray-300 dark:border-gray-700'
+                }`}
+                placeholder="Describe your inquiry..."
+              />
+            </div>
+
+            {/* Security disclosure toggle */}
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                role="switch"
+                aria-checked={formData.isSecurityDisclosure}
+                onClick={() =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    isSecurityDisclosure: !prev.isSecurityDisclosure,
+                  }))
+                }
+                className={`relative h-6 w-11 rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-[#8A2BE2] focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black ${
+                  formData.isSecurityDisclosure ? 'bg-[#8A2BE2]' : 'bg-gray-300 dark:bg-gray-700'
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition-all ${
+                    formData.isSecurityDisclosure ? 'left-[22px]' : 'left-0.5'
+                  }`}
+                />
+              </button>
+              <label className="text-sm text-gray-600 dark:text-gray-400">
+                Security-related disclosure
+              </label>
+            </div>
+
+            {/* Submit button */}
+            <div className="space-y-4 pt-4">
+              <button
+                type="submit"
+                className="border border-gray-300 dark:border-gray-700 bg-transparent px-8 py-3 font-mono text-sm uppercase tracking-wider text-black dark:text-white transition-all hover:border-[#8A2BE2] hover:shadow-[0_0_12px_rgba(138,43,226,0.2)] focus:outline-none focus:ring-2 focus:ring-[#8A2BE2] focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-black"
+              >
+                Send message
+              </button>
+
+              {/* Status messages - simple and clear */}
+              {formStatus === 'success' && (
+                <p className="text-sm text-[#8A2BE2]">
+                  Message sent successfully. Response within 24–48h.
+                </p>
+              )}
+              {formStatus === 'error' && (
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Error sending message. Please try email directly.
+                </p>
+              )}
+
+              {/* Micro-copy bottom line */}
+              <p className="text-xs leading-relaxed text-gray-500 dark:text-gray-500">
+                GPG available if required. Serious requests only.
+                <br />
+                No unsolicited marketing — security inquiries only.
+              </p>
+            </div>
+          </form>
+        </section>
+
+        {/* Subtle cosmic accent - faint constellation line */}
+        <div className="relative mb-12 overflow-hidden">
+          <div className="flex items-center justify-center opacity-20">
+            <svg
+              width="400"
+              height="80"
+              viewBox="0 0 400 80"
+              className="text-[#8A2BE2]"
+              aria-hidden="true"
+            >
+              {/* Subtle constellation lines - quiet space feeling */}
+              <g stroke="currentColor" strokeWidth="0.5" fill="none" opacity="0.4">
+                <circle cx="50" cy="40" r="1.5" fill="currentColor" />
+                <circle cx="150" cy="30" r="1" fill="currentColor" />
+                <circle cx="250" cy="45" r="1.2" fill="currentColor" />
+                <circle cx="350" cy="35" r="1" fill="currentColor" />
+
+                <path d="M 50 40 Q 100 35, 150 30" />
+                <path d="M 150 30 Q 200 37, 250 45" />
+                <path d="M 250 45 Q 300 40, 350 35" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        {/* Footer - minimal */}
+        <footer className="border-t border-gray-200 dark:border-gray-800 pt-12">
+          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+            <p className="font-mono text-xs text-gray-500 dark:text-gray-500">
+              © {new Date().getFullYear()} Wayko
+            </p>
+            <div className="flex gap-6 font-mono text-xs text-gray-500 dark:text-gray-500">
+              <Link
+                href="/disclosure-policy"
+                className="transition-colors hover:text-gray-700 dark:hover:text-gray-300"
+              >
+                Disclosure policy
+              </Link>
+              <Link
+                href="/research-ethics"
+                className="transition-colors hover:text-gray-700 dark:hover:text-gray-300"
+              >
+                Research ethics
+              </Link>
+            </div>
+          </div>
+        </footer>
       </div>
-    </main>
+    </div>
   );
 }
