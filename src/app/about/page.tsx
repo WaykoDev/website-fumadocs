@@ -312,8 +312,7 @@ export default function AboutPage() {
           font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
           font-size: 15px;
           line-height: 1.7;
-          color: #d4d4d4;
-          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+          color: hsl(var(--muted-foreground));
           font-style: italic;
           letter-spacing: 0.02em;
         }
@@ -327,28 +326,49 @@ export default function AboutPage() {
         .role-link {
           position: relative;
           font-weight: 600;
-          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-          padding-bottom: 2px;
+          transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+          padding: 6px 12px;
+          display: inline-block;
+          border-radius: 6px;
+        }
+
+        .role-link::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg,
+            rgba(91, 33, 182, 0.12),
+            rgba(124, 58, 237, 0.12)
+          );
+          border-radius: 6px;
+          opacity: 0;
+          transition: opacity 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+          z-index: -1;
         }
 
         .role-link::after {
           content: '';
           position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 0%;
-          height: 2px;
-          background: linear-gradient(90deg, #5b21b6, #7c3aed);
-          transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          border-radius: 1px;
+          inset: -2px;
+          background: linear-gradient(135deg, #5b21b6, #7c3aed);
+          border-radius: 8px;
+          opacity: 0;
+          filter: blur(8px);
+          transition: opacity 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+          z-index: -2;
         }
 
         .role-link:hover {
           color: hsl(var(--foreground));
+          text-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+        }
+
+        .role-link:hover::before {
+          opacity: 1;
         }
 
         .role-link:hover::after {
-          width: 100%;
+          opacity: 0.4;
         }
       `}</style>
 
