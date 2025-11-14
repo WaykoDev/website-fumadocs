@@ -41,7 +41,9 @@ export default async function BlogPostPage({
       </div>
 
       {/* Content */}
-      <MDX components={defaultMdxComponents} />
+      <article className="prose prose-neutral dark:prose-invert max-w-none">
+        <MDX components={defaultMdxComponents} />
+      </article>
     </>
   );
 }
