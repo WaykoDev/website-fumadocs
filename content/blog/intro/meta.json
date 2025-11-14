@@ -1,0 +1,6 @@
+{
+  "title": "Introduction",
+  "description": "Bienvenue et présentation du blog",
+  "pages": ["introduction-blog"],
+  "defaultOpen": true
+}

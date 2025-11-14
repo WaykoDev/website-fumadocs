@@ -1,8 +1,6 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import StarfieldBackground from "@/components/StarfieldBackground";
-import NoScroll from "@/components/NoScroll";
 import { BlogList } from "./BlogList";
 import { type SerializableBlogPost } from "@/lib/blog-source";
 
@@ -16,21 +14,7 @@ export function BlogPageClient({ posts, tags }: BlogPageClientProps) {
   const tagFromUrl = searchParams.get('tag');
   return (
     <>
-      <StarfieldBackground />
-      <NoScroll />
-
       <style jsx global>{`
-        /* Hide scrollbar */
-        html, body {
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-        }
-
-        html::-webkit-scrollbar,
-        body::-webkit-scrollbar {
-          display: none;
-        }
-
         @keyframes fade-in-up {
           from {
             opacity: 0;
@@ -66,7 +50,7 @@ export function BlogPageClient({ posts, tags }: BlogPageClientProps) {
         }
       `}</style>
 
-      <div className="min-h-screen px-4 py-16 sm:px-6 md:px-8">
+      <div className="container px-4 py-16 sm:px-6 md:px-8">
         {/* Hero Section */}
         <header className="max-w-7xl mx-auto space-y-6 text-center animate-fade-in-up mb-12">
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight gradient-text">
