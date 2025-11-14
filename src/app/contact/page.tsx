@@ -1,8 +1,26 @@
+"use client";
+
 import Link from 'next/link';
+import NoScroll from '@/components/NoScroll';
 
 export default function ContactPage() {
   return (
-    <div className="relative w-full">
+    <>
+      <NoScroll />
+      <style jsx global>{`
+        /* Hide scrollbar */
+        html, body {
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none; /* IE/Edge */
+        }
+
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+          display: none; /* Chrome, Safari, Opera */
+        }
+      `}</style>
+
+      <div className="relative w-full">
       {/* Subtle cosmic background - very faint */}
       <div className="pointer-events-none fixed inset-0 -z-10 opacity-[0.02]">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900 via-black to-black" />
@@ -120,5 +138,6 @@ export default function ContactPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

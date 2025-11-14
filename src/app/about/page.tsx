@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import StarfieldBackground from "@/components/StarfieldBackground";
+import NoScroll from "@/components/NoScroll";
 
 // Typing effect hook
 function useTypingEffect(text: string, speed: number = 50) {
@@ -68,13 +69,24 @@ export default function AboutPage() {
   const section2 = useScrollReveal();
   const section3 = useScrollReveal();
   const section4 = useScrollReveal();
-  const section5 = useScrollReveal();
 
   return (
     <>
       <StarfieldBackground />
+      <NoScroll />
 
-      <style jsx>{`
+      <style jsx global>{`
+        /* Hide scrollbar */
+        html, body {
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none; /* IE/Edge */
+        }
+
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+          display: none; /* Chrome, Safari, Opera */
+        }
+
         @keyframes glitch-1 {
           0% { clip-path: inset(40% 0 61% 0); }
           20% { clip-path: inset(92% 0 1% 0); }
@@ -468,20 +480,6 @@ export default function AboutPage() {
             </div>
           </section>
 
-          {/* CTF Teams */}
-          <section
-            ref={section5.ref as any}
-            className={`space-y-6 pb-8 scroll-reveal ${section5.isVisible ? 'visible delay-5' : ''}`}
-          >
-            <div className="h-px bg-border w-24 mx-auto" />
-
-            <div className="text-center space-y-3">
-              <h2 className="text-xl sm:text-2xl font-semibold">CTF Player</h2>
-              <p className="text-base sm:text-lg text-muted-foreground">
-                Phreaks2600 • Lexfo
-              </p>
-            </div>
-          </section>
         </main>
       </div>
     </>
