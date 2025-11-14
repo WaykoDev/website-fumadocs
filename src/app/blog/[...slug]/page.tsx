@@ -17,31 +17,38 @@ export default async function BlogPostPage({
     notFound();
   }
 
-  const { description, author, date, tags } = page.data;
+  const { title, description, author, date, tags } = page.data;
   const MDX = page.data.body;
   const readingTime = 5; // You can calculate this from content if needed
 
   return (
-    <div className="w-full px-2 sm:px-4 md:px-6 lg:px-8">
-      {/* Article Metadata */}
-      <div className="mb-6 md:mb-8 space-y-3 md:space-y-4 border-b pb-4 md:pb-6">
-        {description && (
-          <p className="text-base md:text-lg text-muted-foreground">
-            {description}
-          </p>
-        )}
-        <BlogMeta author={author} date={date} readingTime={readingTime} />
-        {tags && tags.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {tags.map((tag) => (
-              <LinkTagBadge key={tag} tag={tag} />
-            ))}
+    <div className="w-full">
+      {/* Hero Header - Mobile First */}
+      <header className="gradient-hero py-6 px-4 sm:py-8 sm:px-6 md:py-12 md:px-8 mb-6 sm:mb-8">
+        <div className="max-w-4xl space-y-3 sm:space-y-4 md:space-y-6">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight break-words">
+            {title}
+          </h1>
+          {description && (
+            <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400">
+              {description}
+            </p>
+          )}
+          <div className="pt-2">
+            <BlogMeta author={author} date={date} readingTime={readingTime} />
           </div>
-        )}
-      </div>
+          {tags && tags.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <LinkTagBadge key={tag} tag={tag} />
+              ))}
+            </div>
+          )}
+        </div>
+      </header>
 
-      {/* Content */}
-      <article className="prose prose-neutral dark:prose-invert w-full max-w-none md:max-w-4xl lg:max-w-5xl prose-sm sm:prose-base">
+      {/* Content - Mobile First */}
+      <article className="prose prose-neutral dark:prose-invert w-full max-w-none md:max-w-4xl px-4 sm:px-6 md:px-8 pb-8 prose-sm sm:prose-base">
         <MDX components={defaultMdxComponents} />
       </article>
     </div>
