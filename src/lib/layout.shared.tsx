@@ -177,7 +177,7 @@ export function baseOptions(): BaseLayoutProps {
     // see https://fumadocs.dev/docs/ui/navigation/links
     links: [
       {
-        text: 'Blog',
+        text: 'Write-ups',
         url: '/blog',
         active: 'nested-url',
       },

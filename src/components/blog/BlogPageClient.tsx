@@ -50,17 +50,7 @@ export function BlogPageClient({ posts, tags }: BlogPageClientProps) {
         }
       `}</style>
 
-      <div className="container px-4 py-16 sm:px-6 md:px-8">
-        {/* Hero Section */}
-        <header className="max-w-7xl mx-auto space-y-6 text-center animate-fade-in-up mb-12">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight gradient-text">
-            Blog
-          </h1>
-          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Write-ups, articles techniques, réflexions et updates de projets en cybersécurité
-          </p>
-        </header>
-
+      <div className="container px-4 py-8 sm:px-6 md:px-8">
         <BlogList posts={posts} tags={tags} initialTag={tagFromUrl} />
       </div>
     </>
