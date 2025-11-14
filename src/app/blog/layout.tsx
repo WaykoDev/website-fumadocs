@@ -1,6 +1,19 @@
-import { HomeLayout } from 'fumadocs-ui/layouts/home';
-import { baseOptions } from '@/lib/layout.shared';
+import { type ReactNode } from 'react';
+import type { Metadata } from 'next';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-  return <HomeLayout {...baseOptions()}>{children}</HomeLayout>;
+export const metadata: Metadata = {
+  title: {
+    template: '%s | Blog',
+    default: 'Blog',
+  },
+  description: 'Articles techniques, write-ups CTF et réflexions sur la cybersécurité',
+  openGraph: {
+    title: 'Blog',
+    description: 'Articles techniques, write-ups CTF et réflexions sur la cybersécurité',
+    type: 'website',
+  },
+};
+
+export default function BlogLayout({ children }: { children: ReactNode }) {
+  return children;
 }

