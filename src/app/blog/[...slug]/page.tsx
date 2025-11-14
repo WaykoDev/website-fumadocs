@@ -22,11 +22,11 @@ export default async function BlogPostPage({
   const readingTime = 5; // You can calculate this from content if needed
 
   return (
-    <>
+    <div className="w-full px-2 sm:px-4 md:px-6 lg:px-8">
       {/* Article Metadata */}
-      <div className="mb-8 space-y-4 border-b pb-6">
+      <div className="mb-6 md:mb-8 space-y-3 md:space-y-4 border-b pb-4 md:pb-6">
         {description && (
-          <p className="text-lg text-muted-foreground">
+          <p className="text-base md:text-lg text-muted-foreground">
             {description}
           </p>
         )}
@@ -41,10 +41,10 @@ export default async function BlogPostPage({
       </div>
 
       {/* Content */}
-      <article className="prose prose-neutral dark:prose-invert max-w-none">
+      <article className="prose prose-neutral dark:prose-invert w-full max-w-none md:max-w-4xl lg:max-w-5xl prose-sm sm:prose-base">
         <MDX components={defaultMdxComponents} />
       </article>
-    </>
+    </div>
   );
 }
 
