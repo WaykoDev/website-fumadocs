@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { blogSource, getAllBlogPosts } from "@/lib/blog-source";
 import { BlogMeta } from "@/components/blog/BlogMeta";
 import { LinkTagBadge } from "@/components/blog/LinkTagBadge";
-import defaultMdxComponents from "fumadocs-ui/mdx";
+import { getMDXComponents } from "@/mdx-components";
 
 export default async function BlogPostPage({
   params,
@@ -24,7 +24,7 @@ export default async function BlogPostPage({
     <div className="w-full min-h-screen">
       {/* Hero Header - Mobile First with Tailwind gradient */}
       <header className="relative w-full py-6 px-4 sm:py-8 sm:px-6 md:py-12 md:px-8 mb-6 sm:mb-8 bg-gradient-to-br from-violet-500/10 via-pink-500/10 to-transparent border-b border-violet-500/20">
-        <div className="max-w-4xl mx-auto space-y-3 sm:space-y-4 md:space-y-6">
+        <div className="max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto space-y-3 sm:space-y-4 md:space-y-6">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight break-words">
             {title}
           </h1>
@@ -46,12 +46,15 @@ export default async function BlogPostPage({
         </div>
       </header>
 
-      {/* Content - Mobile First with proper constraints */}
-      <article className="w-full max-w-4xl mx-auto px-4 sm:px-6 md:px-8 pb-8">
+      {/* Content - Mobile First with proper constraints, expanding on ultra-wide screens */}
+      <article className="w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-8">
         {/*
           Prose wrapper with responsive sizing and proper overflow handling
           - Mobile (default): Full width with padding
           - Desktop: Max 4xl centered
+          - Large screens (lg): Max 5xl
+          - Extra large (xl): Max 6xl
+          - Ultra-wide (2xl): Max 7xl
           - All viewports: Proper image and code block handling
         */}
         <div className="prose prose-neutral dark:prose-invert prose-sm sm:prose-base max-w-none
@@ -71,7 +74,7 @@ export default async function BlogPostPage({
                         prose-table:w-full prose-table:my-6 prose-table:overflow-x-auto prose-table:block prose-table:max-w-full
                         prose-th:bg-gray-100 prose-th:dark:bg-gray-800 prose-th:px-4 prose-th:py-2 prose-th:font-semibold prose-th:text-left
                         prose-td:border-t prose-td:border-gray-200 prose-td:dark:border-gray-700 prose-td:px-4 prose-td:py-2">
-          <MDX components={defaultMdxComponents} />
+          <MDX components={getMDXComponents()} />
         </div>
       </article>
     </div>
