@@ -15,6 +15,7 @@ export function baseOptions(): BaseLayoutProps {
         <>
            <svg
               className="h-10 w-10 shrink-0"
+              style={{ width: '40px', height: '40px', flexShrink: 0 }}
               viewBox="0 0 2000 2000"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
