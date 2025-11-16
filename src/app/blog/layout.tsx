@@ -17,5 +17,8 @@ export const metadata: Metadata = {
 };
 
 export default function BlogLayout({ children }: { children: ReactNode }) {
-  return <HomeLayout {...baseOptions()}>{children}</HomeLayout>;
+  // Just pass children through - individual pages handle their own layout
+  // - Blog list page (page.tsx) will use its own layout
+  // - Blog article pages ([...slug]/layout.tsx) use DocsLayout with sidebar
+  return <>{children}</>;
 }
