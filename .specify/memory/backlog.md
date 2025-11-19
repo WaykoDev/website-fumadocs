@@ -9,10 +9,13 @@ Ce fichier contient les idées de fonctionnalités et améliorations futures pou
 
 ## 🎨 Features UX/UI
 
-### F001 - 3D Hover Effect sur Headers d'Articles ⭐ NOUVELLE IDÉE
+### F001 - 3D Hover Effect sur Headers d'Articles ⭐
 **Priorité**: P3 (Enhancement)
-**Statut**: 💡 Idée
+**Statut**: 🚧 En cours
 **Date ajoutée**: 2025-11-20
+**Date démarrée**: 2025-11-20
+**Branch**: `002-feature-3d-hover-effect`
+**Spec**: `specs/002-feature-3d-hover-effect/spec.md`
 
 **Description**:
 Ajouter un effet 3D interactif sur les headers des articles de blog qui réagit au mouvement de la souris.
@@ -199,7 +202,8 @@ Créer un thème de syntax highlighting personnalisé pour les code blocks qui m
 ## 📊 Statistiques
 
 **Total features**: 6
-**Nouvelles idées (💡)**: 4
+**Nouvelles idées (💡)**: 3
+**En cours (🚧)**: 1
 **Planifiées (📋)**: 1
 **À investiguer (🔍)**: 1
 
