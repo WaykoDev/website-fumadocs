@@ -121,30 +121,43 @@ export default function BlogArticleLayout({ children }: { children: ReactNode })
 
 **Test effectué**: ✅ Confirmé par l'utilisateur que le bouton hamburger apparaît maintenant correctement
 
-### ✅ Phase 4: Investigation Logo Rogné
+### ✅ Phase 4: Investigation et Résolution Logo Rogné
 
-**Problème**: Logo SVG rogné/coupé dans la sidebar DocsLayout
+**Problème**: Logo SVG rogné/coupé dans la navbar
 
-**Investigation menée**:
+**Investigation menée** (Session 2025-11-20):
 - Analysé la documentation Fumadocs
 - Utilisé un agent Explore pour identifier la cause CSS
-- **Cause trouvée**: DocsLayout applique `[&_svg]:size-4` qui force tous les SVG à 16px × 16px
-- Le logo de 40px × 40px (`h-10 w-10`) était donc rogné
+- **Première hypothèse**: DocsLayout applique `[&_svg]:size-4` qui force tous les SVG à 16px × 16px
+- **Tests via console Firefox**: Dimensions calculées étaient bien 40px × 40px
+- **Vraie cause découverte**: Le `<mask>` SVG utilisait `maskUnits="userSpaceOnUse"` avec des coordonnées absolutes
 
-**Tentative de fix**:
+**Explication technique**:
+Le SVG contenait un mask avec des coordonnées absolues conçues pour un SVG de 2000px:
 ```tsx
-// src/lib/layout.shared.tsx ligne 18
-<svg
-  className="h-10 w-10 shrink-0"
-  style={{ width: '40px', height: '40px', flexShrink: 0 }}
-  viewBox="0 0 2000 2000"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
+<mask id="mask0_2_2" maskUnits="userSpaceOnUse" x="236" y="175" width="1528" height="1529">
+  <circle cx="999.85" cy="939.673" r="763.774" fill="#000026" />
+</mask>
 ```
 
-**Résultat**: ❌ Fix n'a pas fonctionné selon l'utilisateur
-**Note**: Problème reporté pour investigation future
+Quand le SVG était réduit à 40px, le mask ne scalait pas proportionnellement et coupait le contenu visible. Les dimensions CSS (40px) étaient correctes, mais le mask rendait invisible la majeure partie du logo.
+
+**Solution appliquée**:
+```tsx
+// src/lib/layout.shared.tsx ligne 23
+// AVANT: mask avec coordonnées absolues
+<mask id="mask0_2_2" maskUnits="userSpaceOnUse" x="236" y="175" width="1528" height="1529">
+  <circle cx="999.85" cy="939.673" r="763.774" fill="#000026" />
+</mask>
+<g mask="url(#mask0_2_2)">
+
+// APRÈS: retrait complet du mask
+<g>
+```
+
+**Résultat**: ✅ **Problème résolu!** Le logo s'affiche correctement à 40px × 40px sans être rogné
+
+**Leçon apprise**: Les masks SVG avec `maskUnits="userSpaceOnUse"` ne scalent pas avec le viewBox. Toujours utiliser `maskUnits="objectBoundingBox"` (par défaut) ou retirer le mask si non essentiel.
 
 ---
 
@@ -154,7 +167,7 @@ export default function BlogArticleLayout({ children }: { children: ReactNode })
 1. `src/app/blog/page.tsx` - Migration Tailwind mobile-first
 2. `src/app/blog/layout.tsx` - Passthrough layout
 3. `src/app/blog/[...slug]/layout.tsx` - DocsLayout sans liens dupliqués
-4. `src/lib/layout.shared.tsx` - Tentative fix logo (styles inline)
+4. `src/lib/layout.shared.tsx` - Fix logo SVG (retrait du mask problématique)
 
 ### Supprimés
 1. `src/app/blog/[...slug]/blog-post.css` - Remplacé par Tailwind
@@ -174,6 +187,7 @@ export default function BlogArticleLayout({ children }: { children: ReactNode })
 - [x] HomeLayout sur page liste
 - [x] DocsLayout sur pages articles
 - [x] Pas de liens dupliqués dans sidebar
+- [x] Logo s'affiche correctement (40px × 40px, non rogné) - Session 2025-11-20
 
 ### ⏳ Tests en Attente
 - [ ] Test responsive sur viewport 375px (iPhone)
@@ -184,18 +198,19 @@ export default function BlogArticleLayout({ children }: { children: ReactNode })
 - [ ] Lighthouse Accessibility Score
 
 ### ❌ Tests Échoués
-- [ ] Logo non rogné dans sidebar DocsLayout (fix inline styles n'a pas fonctionné)
+- ~~Logo non rogné dans sidebar DocsLayout~~ → ✅ **RÉSOLU** (Session 2025-11-20 - retrait du mask SVG)
 
 ---
 
 ## 🐛 Problèmes Restants
 
-### P1 - CRITIQUE
-1. **Logo rogné dans DocsLayout sidebar**
-   - CSS `[&_svg]:size-4` de Fumadocs override les styles
-   - Styles inline n'ont pas fonctionné
-   - **Prochaine étape**: Essayer wrapper div ou composant custom
-   - **Fichier**: `src/lib/layout.shared.tsx`
+### ~~P1 - CRITIQUE~~ ✅ **RÉSOLU** (2025-11-20)
+1. ~~**Logo rogné dans DocsLayout sidebar**~~
+   - ~~CSS `[&_svg]:size-4` de Fumadocs override les styles~~ (Fausse piste)
+   - **Vraie cause**: Mask SVG avec `maskUnits="userSpaceOnUse"`
+   - **Solution**: Retrait complet du `<mask>` du SVG
+   - **Fichier modifié**: `src/lib/layout.shared.tsx:23`
+   - **Statut**: ✅ Logo s'affiche correctement à 40px
 
 ### P2 - IMPORTANT
 2. **Validation responsive complète en attente**
