@@ -257,10 +257,10 @@ Quand le SVG était réduit à 40px, le mask ne scalait pas proportionnellement 
 ## 🚀 Prochaines Actions Recommandées
 
 ### Immédiat
-1. **Fix logo rogné** (P1)
-   - Essayer approche wrapper div
-   - Ou créer override CSS global pour sidebar
-   - Ou contacter équipe Fumadocs pour config
+1. ~~**Fix logo rogné** (P1)~~ ✅ **RÉSOLU** (2025-11-20)
+   - ~~Essayer approche wrapper div~~
+   - ~~Ou créer override CSS global pour sidebar~~
+   - **Solution appliquée**: Retrait du mask SVG
 
 2. **Tests responsive complets** (P2)
    - Viewport 375px (mobile)
@@ -283,6 +283,7 @@ Quand le SVG était réduit à 40px, le mask ne scalait pas proportionnellement 
    - Table of Contents sticky
    - Animations fluides
    - Navigation améliorée
+   - **3D Hover Effect** sur headers d'articles (voir backlog.md)
 
 ---
 
