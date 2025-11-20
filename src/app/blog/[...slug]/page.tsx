@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { blogSource, getAllBlogPosts } from "@/lib/blog-source";
-import { BlogMeta } from "@/components/blog/BlogMeta";
-import { LinkTagBadge } from "@/components/blog/LinkTagBadge";
+import { AnimatedBlogHeader } from "@/components/blog/AnimatedBlogHeader";
 import { getMDXComponents } from "@/mdx-components";
 
 export default async function BlogPostPage({
@@ -22,29 +21,14 @@ export default async function BlogPostPage({
 
   return (
     <div className="w-full min-h-screen">
-      {/* Hero Header - Mobile First with Tailwind gradient */}
-      <header className="relative w-full py-6 px-4 sm:py-8 sm:px-6 md:py-12 md:px-8 mb-6 sm:mb-8 bg-gradient-to-br from-violet-500/10 via-pink-500/10 to-transparent border-b border-violet-500/20">
-        <div className="max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto space-y-3 sm:space-y-4 md:space-y-6">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight break-words">
-            {title}
-          </h1>
-          {description && (
-            <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400">
-              {description}
-            </p>
-          )}
-          <div className="pt-2">
-            <BlogMeta author={author} date={date} readingTime={readingTime} />
-          </div>
-          {tags && tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {tags.map((tag) => (
-                <LinkTagBadge key={tag} tag={tag} />
-              ))}
-            </div>
-          )}
-        </div>
-      </header>
+      <AnimatedBlogHeader
+        title={title}
+        description={description}
+        author={author}
+        date={date}
+        readingTime={readingTime}
+        tags={tags}
+      />
 
       {/* Content - Mobile First with proper constraints, expanding on ultra-wide screens */}
       <article className="w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-8">
