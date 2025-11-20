@@ -51,14 +51,17 @@ export function AnimatedBlogHeader({
   }, []);
 
   /**
-   * Setup GSAP-powered interactive lighting and shadow animations
+   * 🎯 GSAP-powered Localized Shadow Effect
    *
-   * Animation features:
-   * - Dynamic shadows that move opposite to cursor position (creates 3D depth illusion)
-   * - Proximity-based glow effect that "illuminates" letters near the cursor
-   * - Color shifting based on distance (violet hue with variable saturation/lightness)
-   * - Subtle scale effect for enhanced depth perception
-   * - Smooth transitions using power3.out and expo.out easing
+   * A precise, targeted animation:
+   * - Only affects letters within 70px of cursor (very localized)
+   * - Dynamic shadow projection opposite to cursor position
+   * - Triple-layer dark shadows for realistic depth
+   * - Letters outside zone are immediately reset (no global effect)
+   * - No colored glow or white halo - pure shadow only
+   * - Subtle scale effect (max 1.1x)
+   * - Ultra-fast reactivity (0.1s duration)
+   * - Instant overwrite of previous animations
    */
   useEffect(() => {
     if (!isAnimationEnabled || !titleRef.current) return;
@@ -80,71 +83,77 @@ export function AnimatedBlogHeader({
     };
 
     /**
-     * Mouse move: Calculate light position and animate shadows per letter
+     * 🎯 LOCALIZED SHADOW EFFECT
      *
-     * Algorithm:
-     * 1. Get mouse position relative to title container
-     * 2. For each letter:
-     *    - Calculate distance from mouse to letter center
-     *    - Calculate shadow direction (opposite to mouse, like a light source)
-     *    - Calculate glow intensity (inverse distance, max at 200px)
-     *    - Apply GSAP animation with dynamic text-shadow and color
+     * A precise, localized animation:
+     * - Shadow only on letters very close to cursor
+     * - Shadow direction opposite to cursor (realistic light source)
+     * - Small radius - affects only nearby letters
+     * - No glow, no white halo - pure shadow effect
+     * - Instant reactivity
      */
     const handleMouseMove = (e: MouseEvent) => {
       const titleRect = titleElement.getBoundingClientRect();
-
-      // Calculate mouse position relative to title element
       const mouseX = e.clientX - titleRect.left;
       const mouseY = e.clientY - titleRect.top;
 
-      // Animate each letter individually based on proximity to cursor
       letterElements.forEach((letter) => {
         const letterRect = letter.getBoundingClientRect();
         const letterCenterX = letterRect.left + letterRect.width / 2 - titleRect.left;
         const letterCenterY = letterRect.top + letterRect.height / 2 - titleRect.top;
 
-        // Vector from letter to mouse
         const deltaX = mouseX - letterCenterX;
         const deltaY = mouseY - letterCenterY;
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        // Shadow offset calculation: opposite to light source (mouse)
-        // Shadow moves away from cursor, creating realistic depth/relief
-        const maxShadowDistance = 15; // Max shadow distance in pixels
-        const shadowIntensity = Math.min(1, 300 / Math.max(distance, 1)); // Stronger when close
-        const shadowX = (-deltaX / distance) * shadowIntensity * maxShadowDistance;
-        const shadowY = (-deltaY / distance) * shadowIntensity * maxShadowDistance;
+        // Very small zone - only affects letters within 70px
+        const effectRadius = 70;
 
-        // Spotlight/glow intensity: sharp falloff like a real lamp
-        const maxGlowDistance = 100; // Spotlight radius (tighter)
-        const glowIntensity = Math.max(0, Math.pow(1 - distance / maxGlowDistance, 2.5)); // Sharper falloff
+        // Letter is outside effect zone - reset it
+        if (distance > effectRadius) {
+          gsap.to(letter, {
+            duration: 0.2,
+            ease: 'power1.out',
+            textShadow: 'none',
+            overwrite: 'auto',
+          });
+          return;
+        }
 
-        // GSAP animation: smooth transition with power3.out easing
+        // Calculate intensity (only for letters inside zone)
+        const proximity = 1 - distance / effectRadius;
+        const intensity = Math.pow(proximity, 2);
+
+        // Shadow direction: opposite to cursor (light source from cursor)
+        const shadowDistance = 45; // Much bigger shadow distance
+        const shadowIntensity = intensity;
+        const shadowX = (-deltaX / distance) * shadowIntensity * shadowDistance;
+        const shadowY = (-deltaY / distance) * shadowIntensity * shadowDistance;
+
+        // Very strong dark shadows with heavy blur - no scale movement
         gsap.to(letter, {
-          duration: 0.15,
-          ease: 'power3.out',
+          duration: 0.1,
+          ease: 'power1.out',
           textShadow: `
-            ${shadowX}px ${shadowY}px ${6 + shadowIntensity * 4}px rgba(0, 0, 0, ${0.4 + shadowIntensity * 0.3}),
-            ${shadowX * 0.5}px ${shadowY * 0.5}px ${3}px rgba(0, 0, 0, ${0.2 + shadowIntensity * 0.2}),
-            0 0 ${20 + glowIntensity * 40}px rgba(139, 92, 246, ${glowIntensity * 0.8}),
-            0 0 ${10 + glowIntensity * 20}px rgba(236, 72, 153, ${glowIntensity * 0.4})
+            ${shadowX * 2.5}px ${shadowY * 2.5}px ${18 + intensity * 15}px rgba(0, 0, 0, ${0.6 + intensity * 0.4}),
+            ${shadowX * 1.5}px ${shadowY * 1.5}px ${10 + intensity * 8}px rgba(0, 0, 0, ${0.7 + intensity * 0.3}),
+            ${shadowX}px ${shadowY}px ${5 + intensity * 4}px rgba(0, 0, 0, ${0.6 + intensity * 0.4}),
+            ${shadowX * 0.5}px ${shadowY * 0.5}px 2px rgba(0, 0, 0, ${0.5 + intensity * 0.3})
           `,
-          // Don't change text color - only add glow effect
-          filter: `brightness(${1 + glowIntensity * 0.3})`,
+          overwrite: 'auto',
         });
       });
     };
 
     /**
-     * Mouse leave: Return to neutral state
-     * Uses slower expo.out easing for a gentle "fade out" effect
+     * Mouse leave: Immediate return to neutral state
      */
     const handleMouseLeave = () => {
       gsap.to(letterElements, {
-        duration: 0.6,
-        ease: 'expo.out',
+        duration: 0.15,
+        ease: 'power1.out',
         textShadow: 'none',
-        filter: 'brightness(1)',
+        overwrite: 'auto',
       });
     };
 
