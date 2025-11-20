@@ -26,34 +26,39 @@ Animation GSAP interactive sur le titre des articles de blog - effet de lumière
   - GSAP v3.13.0 pour animations fluides
   - React hooks (useRef, useEffect, useState)
   - Text splitting lettre par lettre pour animations individuelles
-  - Easing: power3.out (mousemove) et expo.out (mouseleave)
+  - Easing: power2.out
 
-- **Effets implémentés**:
-  - ✅ Ombres dynamiques qui se déplacent à l'opposé du curseur (illusion 3D)
-  - ✅ Effet de glow (surbrillance) basé sur la proximité du curseur
-  - ✅ Color shifting dynamique (violet avec saturation/luminosité variable)
-  - ✅ Subtle scale effect (1.0 → 1.05)
-  - ✅ Smooth transitions avec GSAP
+- **Effets implémentés** (version finale - clean & elegant):
+  - ✅ Float effect - lettres montent vers le haut (-10px max)
+  - ✅ Gentle scale (1.08x max)
+  - ✅ Brightness glow effect (luminosité +30%)
+  - ✅ Effet localisé (90px radius)
+  - ✅ Smooth transitions (0.3s in, 0.5s out)
 
 - **Compatibilité & Accessibilité**:
   - ✅ Desktop uniquement (< 1024px = désactivé)
   - ✅ Détection touch devices (désactivé)
   - ✅ Respect `prefers-reduced-motion` media query
-  - ✅ Testé sur Chrome (compilation réussie)
+  - ✅ Performance optimale avec GSAP
 
 **Fichiers créés/modifiés**:
 1. `src/components/blog/AnimatedBlogHeader.tsx` - Nouveau composant client GSAP
 2. `src/app/blog/[...slug]/page.tsx` - Intégration du composant
 3. `package.json` - Ajout dépendance `gsap@3.13.0`
 
-**Temps réel**: ~2 heures
+**Commits**:
+- 9dfbe4ac - Initial spec setup
+- a6d9d926 - Spotlight effect (initial)
+- 97d62921 - Shadow effect iteration
+- 6f88ba72 - Final clean float + glow effect
+- 0ad5fb79 - Merge to main
 
 **Notes techniques**:
 - Calcul de distance vectorielle pour chaque lettre
-- Shadow offset: opposé au vecteur curseur-lettre
-- Glow intensity: 1 - (distance / 200px)
+- Intensité basée sur proximité au curseur (quadratic falloff)
+- Effect radius: 90px (localized)
 - Performance: GSAP gère l'optimisation RAF automatiquement
-- Documentation complète avec commentaires inline
+- Simple et fiable - pas de changements de couleur complexes
 
 ---
 
