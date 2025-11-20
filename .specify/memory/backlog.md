@@ -9,75 +9,51 @@ Ce fichier contient les idées de fonctionnalités et améliorations futures pou
 
 ## 🎨 Features UX/UI
 
-### F001 - 3D Hover Effect sur Headers d'Articles ⭐
+### F001 - Interactive Light Effect sur Titre d'Articles ⭐
 **Priorité**: P3 (Enhancement)
-**Statut**: 🚧 En cours
+**Statut**: ✅ Terminé
 **Date ajoutée**: 2025-11-20
 **Date démarrée**: 2025-11-20
+**Date terminée**: 2025-11-20
 **Branch**: `002-feature-3d-hover-effect`
 **Spec**: `specs/002-feature-3d-hover-effect/spec.md`
 
 **Description**:
-Ajouter un effet 3D interactif sur les headers des articles de blog qui réagit au mouvement de la souris.
+Animation GSAP interactive sur le titre des articles de blog - effet de lumière qui suit le curseur avec ombres dynamiques.
 
-**Détails techniques**:
-- **Fichier cible**: `src/app/blog/[...slug]/page.tsx` (ligne 26-47, header section)
-- **Technologies suggérées**:
-  - CSS `transform: perspective()` et `rotateX/rotateY`
-  - React hook `onMouseMove` pour tracker la position de la souris
-  - Calcul de l'angle de rotation basé sur la position relative de la souris
-  - Smooth transition avec `transition: transform 0.1s ease-out`
-- **Compatibilité**: Desktop uniquement (désactiver sur mobile/tablet)
-- **Accessibilité**: Respecter `prefers-reduced-motion` media query
+**Implémentation finale**:
+- **Technologies utilisées**:
+  - GSAP v3.13.0 pour animations fluides
+  - React hooks (useRef, useEffect, useState)
+  - Text splitting lettre par lettre pour animations individuelles
+  - Easing: power3.out (mousemove) et expo.out (mouseleave)
 
-**Inspiration**:
-```tsx
-// Exemple de logique pour calculer l'effet 3D
-const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-  const card = e.currentTarget;
-  const rect = card.getBoundingClientRect();
-  const x = e.clientX - rect.left; // Position X dans l'élément
-  const y = e.clientY - rect.top;  // Position Y dans l'élément
+- **Effets implémentés**:
+  - ✅ Ombres dynamiques qui se déplacent à l'opposé du curseur (illusion 3D)
+  - ✅ Effet de glow (surbrillance) basé sur la proximité du curseur
+  - ✅ Color shifting dynamique (violet avec saturation/luminosité variable)
+  - ✅ Subtle scale effect (1.0 → 1.05)
+  - ✅ Smooth transitions avec GSAP
 
-  const centerX = rect.width / 2;
-  const centerY = rect.height / 2;
+- **Compatibilité & Accessibilité**:
+  - ✅ Desktop uniquement (< 1024px = désactivé)
+  - ✅ Détection touch devices (désactivé)
+  - ✅ Respect `prefers-reduced-motion` media query
+  - ✅ Testé sur Chrome (compilation réussie)
 
-  const rotateX = ((y - centerY) / centerY) * -10; // Max ±10deg
-  const rotateY = ((x - centerX) / centerX) * 10;
+**Fichiers créés/modifiés**:
+1. `src/components/blog/AnimatedBlogHeader.tsx` - Nouveau composant client GSAP
+2. `src/app/blog/[...slug]/page.tsx` - Intégration du composant
+3. `package.json` - Ajout dépendance `gsap@3.13.0`
 
-  card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-};
+**Temps réel**: ~2 heures
 
-const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
-  e.currentTarget.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-};
-```
-
-**Considérations**:
-- Performance: Utiliser `requestAnimationFrame` si nécessaire
-- Ne pas appliquer sur mobile (touch events différents)
-- Tester avec dark mode
-- Effet subtil pour ne pas distraire de la lecture
-- Ajouter un gradient glow/shine qui suit la souris (optionnel)
-
-**Fichiers à modifier**:
-1. `src/app/blog/[...slug]/page.tsx` - Ajouter les event handlers
-2. Potentiellement créer un composant réutilisable `<Interactive3DCard>`
-
-**Tâches estimées**:
-- [ ] T001: Créer un hook `useMouseParallax` réutilisable
-- [ ] T002: Implémenter l'effet sur le header d'article
-- [ ] T003: Ajouter detection mobile et `prefers-reduced-motion`
-- [ ] T004: Tests sur différents navigateurs
-- [ ] T005: Optimisation performance si nécessaire
-
-**Temps estimé**: 2-3 heures
-
-**Dépendances**: Aucune
-
-**Liens utiles**:
-- [CSS perspective](https://developer.mozilla.org/en-US/docs/Web/CSS/perspective)
-- [prefers-reduced-motion](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion)
+**Notes techniques**:
+- Calcul de distance vectorielle pour chaque lettre
+- Shadow offset: opposé au vecteur curseur-lettre
+- Glow intensity: 1 - (distance / 200px)
+- Performance: GSAP gère l'optimisation RAF automatiquement
+- Documentation complète avec commentaires inline
 
 ---
 
@@ -203,7 +179,7 @@ Créer un thème de syntax highlighting personnalisé pour les code blocks qui m
 
 **Total features**: 6
 **Nouvelles idées (💡)**: 3
-**En cours (🚧)**: 1
+**Terminées (✅)**: 1
 **Planifiées (📋)**: 1
 **À investiguer (🔍)**: 1
 
