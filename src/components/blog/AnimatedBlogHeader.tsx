@@ -51,17 +51,14 @@ export function AnimatedBlogHeader({
   }, []);
 
   /**
-   * 🎯 GSAP-powered Localized Shadow Effect
+   * 🎯 Clean Float + Glow Effect
    *
-   * A precise, targeted animation:
-   * - Only affects letters within 70px of cursor (very localized)
-   * - Dynamic shadow projection opposite to cursor position
-   * - Triple-layer dark shadows for realistic depth
-   * - Letters outside zone are immediately reset (no global effect)
-   * - No colored glow or white halo - pure shadow only
-   * - Subtle scale effect (max 1.1x)
-   * - Ultra-fast reactivity (0.1s duration)
-   * - Instant overwrite of previous animations
+   * Simple and reliable:
+   * - Upward float (-10px)
+   * - Soft glow shadow
+   * - Gentle scale (1.08x)
+   * - No color changes
+   * - Localized (90px radius)
    */
   useEffect(() => {
     if (!isAnimationEnabled || !titleRef.current) return;
@@ -71,27 +68,6 @@ export function AnimatedBlogHeader({
 
     if (letterElements.length === 0) return;
 
-    /**
-     * Mouse enter: Initialize animation state
-     */
-    const handleMouseEnter = () => {
-      gsap.to(letterElements, {
-        duration: 0.3,
-        ease: 'power3.out',
-        opacity: 1,
-      });
-    };
-
-    /**
-     * 🎯 LOCALIZED SHADOW EFFECT
-     *
-     * A precise, localized animation:
-     * - Shadow only on letters very close to cursor
-     * - Shadow direction opposite to cursor (realistic light source)
-     * - Small radius - affects only nearby letters
-     * - No glow, no white halo - pure shadow effect
-     * - Instant reactivity
-     */
     const handleMouseMove = (e: MouseEvent) => {
       const titleRect = titleElement.getBoundingClientRect();
       const mouseX = e.clientX - titleRect.left;
@@ -106,65 +82,53 @@ export function AnimatedBlogHeader({
         const deltaY = mouseY - letterCenterY;
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        // Very small zone - only affects letters within 70px
-        const effectRadius = 70;
+        const effectRadius = 90;
 
-        // Letter is outside effect zone - reset it
         if (distance > effectRadius) {
           gsap.to(letter, {
-            duration: 0.2,
-            ease: 'power1.out',
-            textShadow: 'none',
+            duration: 0.4,
+            ease: 'power2.out',
+            y: 0,
+            scale: 1,
+            filter: 'brightness(1)',
             overwrite: 'auto',
           });
           return;
         }
 
-        // Calculate intensity (only for letters inside zone)
         const proximity = 1 - distance / effectRadius;
-        const intensity = Math.pow(proximity, 2);
+        const intensity = Math.pow(proximity, 1.5);
 
-        // Shadow direction: opposite to cursor (light source from cursor)
-        const shadowDistance = 45; // Much bigger shadow distance
-        const shadowIntensity = intensity;
-        const shadowX = (-deltaX / distance) * shadowIntensity * shadowDistance;
-        const shadowY = (-deltaY / distance) * shadowIntensity * shadowDistance;
+        const floatY = -10 * intensity;
+        const scale = 1 + 0.08 * intensity;
+        const brightness = 1 + 0.3 * intensity;
 
-        // Very strong dark shadows with heavy blur - no scale movement
         gsap.to(letter, {
-          duration: 0.1,
-          ease: 'power1.out',
-          textShadow: `
-            ${shadowX * 2.5}px ${shadowY * 2.5}px ${18 + intensity * 15}px rgba(0, 0, 0, ${0.6 + intensity * 0.4}),
-            ${shadowX * 1.5}px ${shadowY * 1.5}px ${10 + intensity * 8}px rgba(0, 0, 0, ${0.7 + intensity * 0.3}),
-            ${shadowX}px ${shadowY}px ${5 + intensity * 4}px rgba(0, 0, 0, ${0.6 + intensity * 0.4}),
-            ${shadowX * 0.5}px ${shadowY * 0.5}px 2px rgba(0, 0, 0, ${0.5 + intensity * 0.3})
-          `,
+          duration: 0.3,
+          ease: 'power2.out',
+          y: floatY,
+          scale: scale,
+          filter: `brightness(${brightness})`,
           overwrite: 'auto',
         });
       });
     };
 
-    /**
-     * Mouse leave: Immediate return to neutral state
-     */
     const handleMouseLeave = () => {
       gsap.to(letterElements, {
-        duration: 0.15,
-        ease: 'power1.out',
-        textShadow: 'none',
+        duration: 0.5,
+        ease: 'power2.out',
+        y: 0,
+        scale: 1,
+        filter: 'brightness(1)',
         overwrite: 'auto',
       });
     };
 
-    // Attach event listeners
-    titleElement.addEventListener('mouseenter', handleMouseEnter);
     titleElement.addEventListener('mousemove', handleMouseMove);
     titleElement.addEventListener('mouseleave', handleMouseLeave);
 
-    // Cleanup
     return () => {
-      titleElement.removeEventListener('mouseenter', handleMouseEnter);
       titleElement.removeEventListener('mousemove', handleMouseMove);
       titleElement.removeEventListener('mouseleave', handleMouseLeave);
     };
@@ -189,7 +153,7 @@ export function AnimatedBlogHeader({
               <span
                 key={index}
                 data-letter-index={index}
-                className="inline-block"
+                className="inline-block relative"
                 style={{
                   // Preserve spaces
                   ...(letter === ' ' && { width: '0.25em' }),
